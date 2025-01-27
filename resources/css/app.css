@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global */
+html, body {
+    min-height: 100% !important;
+}
+body {
+    background-color: #1e1e1e !important; /* Fundo escuro */
+}
+.header {
+    background-color: #1e1e1e !important; /* Fundo escuro */
+}
+.component {
+    background-color: #1e1e1e !important; /* Fundo escuro */
+}
