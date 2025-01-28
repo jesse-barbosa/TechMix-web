@@ -10,8 +10,8 @@
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="dark:bg-[#1D1D1D] dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+    <body class="bg-[#1D1D1D] text-white/50">
+        <div class="bg-black text-white/50">
             <header class="flex justify-between items-center gap-2 p-4">
                 <div class="flex lg:justify-center lg:col-start-2">
                     <img src="{{ asset('/assets/images/logo.png') }}" alt="TechMix" height="64" width="64">
@@ -19,14 +19,14 @@
                 <nav class="-mx-3 flex flex-1 justify-end">
                     <a
                         href="{{ route('login') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                        class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/80 focus:outline-none focus-visible:ring-white"
                     >
                     Entrar
                     </a>
 
                     <a
                     href="{{ route('register') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                        class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/80 focus:outline-none focus-visible:ring-white"
                     >
                     Cadastrar
                     </a>
@@ -64,11 +64,11 @@
                 </section>
             </main>
 
-        <footer class="flex flex-col items-center justify-center py-16 text-center text-sm text-black dark:text-gray-300">
+        <footer class="flex flex-col items-center justify-center py-16 text-center text-sm text-gray-300">
             TechMix &copy; {{ date('Y') }}. Todos os direitos reservados.
             <a
             href="{{ url('/dashboard') }}"
-            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+            class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/80 focus:outline-none focus-visible:ring-white"
             >
                 Dashboard
             </a>
