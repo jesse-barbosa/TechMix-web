@@ -28,7 +28,7 @@
             <div class="flex-1">
                 <!-- Page Heading -->
                 @isset($header)
-                    <header class="bg-neutral-200 shadow">
+                    <header class="bg-neutral-100 shadow">
                     <div class="max-w-7xl mx-auto p-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
