@@ -3,13 +3,14 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/produtos', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('produtos');
+Route::get('/produtos', [ProductController::class, 'index'])->name('produtos');
 Route::get('/avaliacoes', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('avaliacoes');
 Route::get('/ajustes', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('ajustes');
 

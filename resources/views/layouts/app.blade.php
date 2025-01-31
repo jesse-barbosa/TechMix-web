@@ -17,6 +17,7 @@
 
         <!-- Ícones -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=forum" />
 
     </head>
     <body class="font-sans antialiased" x-data="{ expanded: false }">
@@ -29,8 +30,14 @@
                 <!-- Page Heading -->
                 @isset($header)
                     <header class="bg-neutral-100 shadow">
-                    <div class="max-w-7xl mx-auto p-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center p-4 sm:px-6">
                         {{ $header }}
+                        <div class="flex items-center gap-2 font-medium">
+                            {{ Auth::user()->name }}
+                            <a href="#chat" class="flex">
+                                <i class="material-symbols-outlined inline h-5 w-5 text-neutral-800">forum</i>
+                            </a>
+                        </div>
                     </div>
                 </header>
                 @endisset
