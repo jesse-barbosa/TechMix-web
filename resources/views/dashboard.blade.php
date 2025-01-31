@@ -8,7 +8,7 @@
         <div class="flex w-1/3">
             <p class="text-2xl font-medium text-start">Transforme suas <span class="text-yellow-500">ideias</span> em realidade com seu próprio <span class="text-yellow-500">e-commerce</span></p>
         </div>
-        <div class="flex w-1/3 items-center">
+        <div class="flex w-1/3 justify-center items-center">
             <div class="flex max-h-14">
                 <x-primary-button class="mt-2">Adicionar produto</x-primary-button>
             </div>
