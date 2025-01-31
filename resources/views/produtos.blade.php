@@ -14,7 +14,7 @@
                     @else
                         @foreach($products as $product)
                             <div class="bg-neutral-700 p-4 rounded-lg shadow-md">
-                                <img src="{{ $product->imageURL }}" alt="{{ $product->name }}" class="w-full h-28 w-28 object-cover mb-4">
+                                <img src="{{ $product->imageURL }}" alt="{{ $product->name }}" class="w-full h-28 object-cover mb-4">
                                 <h2 class="text-lg font-bold text-neutral-100">{{ $product->name }}</h2>
                                 <p class="text-neutral-300">{{ $product->description }}</p>
                                 <p class="text-neutral-100 font-semibold">{{ $product->price }}</p>

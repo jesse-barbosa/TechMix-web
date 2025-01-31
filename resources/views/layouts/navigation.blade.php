@@ -5,7 +5,7 @@
             <!-- Logo and Toggle Button -->
             <div class="flex items-center justify-center mt-4">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="block h-9 w-9 w-auto fill-current text-neutral-200">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="block h-9 w-auto fill-current text-neutral-200">
                 </a>
                 <button @click="$dispatch('toggle-expanded'); expanded = !expanded;" class="top-5 left-16 p-2 text-neutral-400 hover:text-neutral-300" :class="{ 'absolute': !expanded }">
                     <span class="material-icons" :class="{ 'rotate-180': expanded }">chevron_right</span>
