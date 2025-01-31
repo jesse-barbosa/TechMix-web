@@ -4,6 +4,14 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+    <div class="flex flex-row justify-between bg-neutral-800 text-white p-10 text-center">
+        <div class="flex flex-col">
+            <p class="text-2xl">Essa é a única plataforma que você precisa para criar um negócio digital lucrativo!</p>
+        </div>            
+        <div class="flex flex-row">
+            <x-primary-button class="mt-2">Adicionar produto</x-primary-button>
+        </div>
+    </div>
 
     <div class="py-12">
         <div class="w-full mx-auto sm:px-6 lg:px-8">
