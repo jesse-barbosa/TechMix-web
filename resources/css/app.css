@@ -4,14 +4,10 @@
 
 /* Global */
 html, body {
-    min-height: 100% !important;
+    /* min-height: 100% !important; */
+    margin: 0 !important;
+    padding: 0 !important;
 }
-body {
-    background-color: #1e1e1e !important; /* Fundo escuro */
-}
-.header {
-    background-color: #1e1e1e !important; /* Fundo escuro */
-}
-.component {
-    background-color: #1e1e1e !important; /* Fundo escuro */
+input::placeholder {
+    color: #808080 !important;
 }
