@@ -11,8 +11,9 @@ export default {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            width: {
+                '1/8': '12.5%',
+                '1/16': '6.25%',
             },
             colors: {
                 customYellow: '#D4E300',
