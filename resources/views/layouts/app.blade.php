@@ -19,13 +19,13 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" x-data="{ expanded: false }">
         <div class="flex min-h-screen bg-neutral-900">
-            <div class="flex-1 max-w-1/8">
+            <div :class="expanded ? 'flex-none w-1/8' : 'flex-none w-16'">
                 @include('layouts.navigation')
             </div>
 
-            <div class="w-full flex-1">
+            <div class="flex-1">
                 <!-- Page Heading -->
                 @isset($header)
                     <header class="bg-neutral-200 shadow">
@@ -33,10 +33,10 @@
                         {{ $header }}
                     </div>
                 </header>
-            @endisset
+                @endisset
 
-            <!-- Page Content -->
-            <main>
+                <!-- Page Content -->
+                <main>
                     {{ $slot }}
                 </main>
             </div>

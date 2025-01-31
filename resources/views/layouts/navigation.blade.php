@@ -1,13 +1,13 @@
-<nav x-data="{ open: false, expanded: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen w-1/8 transition-width duration-300" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
+<nav x-data="{ open: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-1/8 mx-auto">
+    <div class="max-w-full mx-auto">
         <div class="flex flex-col justify-between h-screen">
             <!-- Logo and Toggle Button -->
             <div class="flex items-center justify-center mt-4">
                 <a href="{{ route('dashboard') }}">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="block h-9 w-9 w-auto fill-current text-neutral-200">
                 </a>
-                <button @click="expanded = !expanded" class="top-5 left-16 p-2 text-neutral-400 hover:text-neutral-300" :class="{ 'absolute': !expanded }">
+                <button @click="$dispatch('toggle-expanded'); expanded = !expanded;" class="top-5 left-16 p-2 text-neutral-400 hover:text-neutral-300" :class="{ 'absolute': !expanded }">
                     <span class="material-icons" :class="{ 'rotate-180': expanded }">chevron_right</span>
                 </button>
             </div>
