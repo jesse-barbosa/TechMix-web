@@ -21,7 +21,7 @@
     </head>
     <body class="font-sans antialiased" x-data="{ expanded: false }">
         <div class="flex min-h-screen bg-neutral-900">
-            <div :class="expanded ? 'flex-none w-1/8' : 'flex-none w-16'">
+            <div :class="expanded ? 'flex-none w-1/8 transition-all duration-300' : 'flex-none w-16 transition-all duration-300'">
                 @include('layouts.navigation')
             </div>
 
