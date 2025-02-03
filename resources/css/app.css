@@ -8,6 +8,7 @@ html, body {
     margin: 0 !important;
     padding: 0 !important;
 }
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
     color: #808080 !important;
 }
