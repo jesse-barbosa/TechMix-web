@@ -39,11 +39,6 @@
             </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-        @if (Route::has('password.request'))
-            <a class="text-sm text-neutral-400 hover:text-neutral-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 focus:ring-offset-neutral-800" href="{{ route('password.request') }}">
-                {{ __('Esqueceu sua senha?') }}
-            </a>
-        @endif
 
         <!-- Remember Me -->
         <div class="block mt-4">
