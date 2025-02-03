@@ -1,8 +1,6 @@
-<nav x-data="{ open: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen shadow-lg" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
-    <!-- Primary Navigation Menu -->
+<nav x-data="{ open: false, expanded: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen shadow-lg" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
     <div class="max-w-full mx-auto">
         <div class="flex flex-col justify-between h-screen">
-            <!-- Logo and Toggle Button -->
             <div class="flex items-center justify-center mt-4">
                 <a href="{{ route('dashboard') }}">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="block h-9 w-auto fill-current text-neutral-200">
@@ -12,7 +10,6 @@
                 </button>
             </div>
 
-            <!-- Navigation Links -->
             <div class="flex flex-col items-center space-y-6">
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" icon="home">
                     <span x-show="expanded">{{ __('Dashboard') }}</span>
@@ -28,36 +25,31 @@
                 </x-nav-link>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="flex items-center mt-4">
-                <x-dropdown align="left" width="48">
-                    <x-slot name="trigger">
-                        <div class="flex justify-between items-center w-full p-2 border border-transparent text-sm text-neutral-400 hover:text-neutral-300">
-                            <img src="{{ Auth::user()->imageURL }}" alt="Store Image" class="w-8 h-8 rounded-full">
-                            <div x-show="expanded" class="w-full text-md mx-2">{{ Auth::user()->name }}</div>
-                            <div>
-                                <span class="material-icons">more_vert</span>
-                            </div>
+            <div class="relative flex items-center mt-4">
+                <div class="flex justify-between items-center w-full p-2 border border-transparent text-sm text-neutral-400 hover:text-neutral-300 cursor-pointer" @click="open = !open">
+                    <img src="{{ Auth::user()->imageURL }}" alt="User Image" class="w-8 h-8 rounded-full">
+                    <div x-show="expanded" class="w-full text-md mx-2">{{ Auth::user()->name }}</div>
+                    <span class="material-icons">more_vert</span>
+                </div>
+                
+                <div x-show="open" @click.away="open = false" class="absolute z-50 left-20 bottom-2 w-64 bg-neutral-700 text-white rounded-lg shadow-lg mt-2">
+                    <button @click="open = false" class="absolute right-2  text-white hover:text-gray-200 text-4xl">&times;</button>
+                    <div class="flex flex-col items-center">
+                        <div class="w-full h-12 rounded-lg rounded-b-none bg-yellow-500"></div>
+                        <img src="{{ Auth::user()->imageURL }}" alt="User Image" class="w-24 h-24 rounded-full -mt-6 border-4 border-neutral-700">
+                        <div class="text-center py-4">
+                            <div class="text-md font-semibold">{{ Auth::user()->name }}</div>
+                            <div class="text-sm text-neutral-300">{{ Auth::user()->email }}</div>
                         </div>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
+                    </div>
+                    <div class="my-3">
+                        <a href="{{ route('profile.edit') }}" class="flex items-center w-full text-left px-4 py-1 text-sm hover:text-neutral-400 hover:underline transition"><span class="material-icons mr-4">settings</span> Configurações da Loja</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            <button type="submit" class="flex items-center w-full text-left px-4 py-1 text-sm text-red-600 hover:text-red-500 mt-2 hover:underline transition"><span class="material-icons mr-4">power_settings_new</span> Log out</button>
                         </form>
-                    </x-slot>
-                </x-dropdown>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
