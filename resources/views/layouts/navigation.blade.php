@@ -1,4 +1,4 @@
-<nav x-data="{ open: false, expanded: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen shadow-lg" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
+<nav x-data="{ open: false }" class="fixed bg-neutral-800 border-b border-neutral-700 h-screen shadow-lg" :class="{ 'w-1/8': expanded, 'w-16': !expanded }">
     <div class="max-w-full mx-auto">
         <div class="flex flex-col justify-between h-screen">
             <div class="flex items-center justify-center mt-4">
