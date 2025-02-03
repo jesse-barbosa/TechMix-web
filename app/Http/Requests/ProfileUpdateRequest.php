@@ -23,8 +23,20 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'description' => [ 'required','string','max:500'],
+            'cnpj' => [ 'required', 'string', 'max:18' ],
+            'street' => [ 'required', 'string', 'max:255' ],
+            'number' => [ 'required', 'string', 'max:10' ],
+            'complement' => [ 'required', 'string', 'max:255' ],
+            'neighborhood  ' => [ 'required', 'string', 'max:255' ],
+            'city' => [ 'required', 'string', 'max:255' ],
+            'state' => [ 'required', 'string', 'max:2' ],
+            'postalCode  ' => [ 'required', 'string', 'max:10' ],
+            Rule::unique(Store::class)->ignore($this->user()->id),
         ];
     }
 }
+
+// 'imageURL' => [ 'required', 'string', 'max:500' ],
+ // 'status  ' => [ 'required', 'number', 'max:11' ],
