@@ -40,7 +40,8 @@
                 <div class="relative">
                     <x-text-input id="cep" class="block mt-1 w-full pl-10" type="text" name="cep" required autocomplete="cep" onblur="autoCompleteAddress()" placeholder="{{ __('00000-000') }}" icon="fas fa-map-marker-alt" />
                 </div>
-                <x-input-error :messages="$errors->get('cep')" class="mt-2" />
+                <span id="cep-error" class="text-red-500 text-sm mt-2"></span>
+                <x-input-error id="cep-error" :messages="$errors->get('cep')" class="mt-2" />
             </div>
             <div class="flex-1 ms-2">
                 <x-input-label for="cnpj" :value="__('CNPJ')" />
@@ -106,10 +107,12 @@
             </a>
         </div>
     </form>
-
+    
     <script>
         function autoCompleteAddress() {
-            const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove non-numeric characters
+            const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            const errorMessage = document.getElementById('cep-error');
+            
             if (cep.length === 8) {
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(response => response.json())
@@ -119,16 +122,19 @@
                             document.getElementById('neighborhood').value = data.bairro;
                             document.getElementById('city').value = data.localidade;
                             document.getElementById('state').value = data.uf;
+                            errorMessage.textContent = ''; // Remove a mensagem de erro se o CEP for válido
                         } else {
-                            alert('CEP não encontrado.');
+                            errorMessage.textContent = 'CEP não encontrado.';
                         }
                     })
                     .catch(error => {
                         console.error('Erro ao buscar o CEP:', error);
+                        errorMessage.textContent = 'Erro ao buscar o CEP. Tente novamente mais tarde.';
                     });
             } else {
-                alert('CEP inválido.');
+                errorMessage.textContent = 'CEP inválido. Insira um CEP válido com 8 dígitos.';
             }
         }
     </script>
+
 </x-guest-layout>
