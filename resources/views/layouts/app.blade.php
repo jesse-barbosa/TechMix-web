@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=forum" />
 
     </head>
-    <body class="font-sans antialiased" x-data="{ expanded: false }">
+    <body class="font-sans antialiased" x-data="{ expanded: true }">
         <div class="flex min-h-screen bg-neutral-900">
             <div :class="expanded ? 'flex-none w-1/8 transition-all duration-300' : 'flex-none w-16 transition-all duration-300'">
                 @include('layouts.navigation')
