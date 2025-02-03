@@ -20,7 +20,7 @@
                 <x-nav-link :href="route('avaliacoes')" :active="request()->routeIs('avaliacoes')" icon="reviews">
                     <span x-show="expanded">{{ __('Avaliações') }}</span>
                 </x-nav-link>
-                <x-nav-link :href="route('ajustes')" :active="request()->routeIs('ajustes')" icon="settings">
+                <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('ajustes')" icon="settings">
                     <span x-show="expanded">{{ __('Ajustes') }}</span>
                 </x-nav-link>
             </div>
