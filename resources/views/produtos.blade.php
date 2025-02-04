@@ -28,7 +28,7 @@
                             </p> -->
                             <p class="text-sm text-neutral-400">Avaliações: {{ $product->evaluations_count }}</p>
                         </div>
-                        <div class="flex space-x-2 ml-4 items-center">
+                        <div class="flex space-x-2 mr-4 items-center">
                             <button class="text-neutral-100 hover:text-yellow-500">
                                 <i class="material-icons">edit</i>
                             </button>
