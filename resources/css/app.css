@@ -12,3 +12,6 @@ input::placeholder,
 textarea::placeholder {
     color: #808080 !important;
 }
+.chatContainer {
+    height: 70vh !important;
+}
