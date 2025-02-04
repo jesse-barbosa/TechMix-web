@@ -1,6 +1,6 @@
 @props(['disabled' => false, 'icon' => null])
 
-<div class="relative">
+<div class="relative w-full">
     @if($icon)
         <i class="{{ $icon }} text-neutral-400 absolute left-3 top-4"></i>
     @endif
