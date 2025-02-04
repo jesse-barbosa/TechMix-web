@@ -25,7 +25,7 @@
                                 <p class="text-sm text-neutral-400">{{ \Carbon\Carbon::parse($chat->created_at)->diffForHumans() }}</p>
                             </div>
 
-                            <p class="text-lg text-neutral-400 mt-auto truncate-2-lines mr-6">
+                            <p class="text-md text-neutral-400 mt-auto truncate-2-lines mr-6">
                                 @if($chat->lastMessage)
                                     <strong>{{ $chat->lastMessage->senderType === 'store' ? 'Você' : 'Cliente' }}:</strong> 
                                     {{ $chat->lastMessage->message }}
