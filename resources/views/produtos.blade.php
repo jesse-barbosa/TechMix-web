@@ -54,41 +54,34 @@
         </div>
     </div>
 
-        <!-- Modal para Adicionar Produto -->
-        <x-modal name="add-product-modal" :show="false" maxWidth="md">
+    <!-- Modal para Adicionar Produto -->
+    <x-modal name="add-product-modal" :show="false" maxWidth="md">
         <div class="p-6">
             <h2 class="text-lg text-white font-semibold">Adicionar Produto</h2>
             <form id="addProductForm" method="POST" enctype="multipart/form-data">
                 @csrf
-
-                <div class="mt-4">
-                    <label class="text-sm text-neutral-300">Imagem do Produto</label>
-                    <x-text-input type="file" id="productImage" name="image" class="w-full text-white border p-2 rounded" accept="image/*" required />
-                    <div class="flex items-center justify-center mt-2">
-                        <img id="imagePreview" class="w-40 h-40 object-cover rounded hidden" />
-                    </div>
-                </div>
-
+                <x-image-input id="productImage" name="image" required />
+                
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Nome</label>
                     <x-text-input type="text" id="productName" name="name" class="w-full" required />
                 </div>
-
+                
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Descrição</label>
                     <x-textarea-input id="productDescription" name="description" class="w-full"></x-textarea-input>
                 </div>
-
+                
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Preço</label>
                     <x-text-input type="number" id="productPrice" name="price" step="0.01" class="w-full" required />
                 </div>
-
+                
                 <div class="flex justify-end mt-4 space-x-2">
                     <x-secondary-button x-on:click="$dispatch('close-modal', 'add-product-modal')">
                         Cancelar
                     </x-secondary-button>
-                    <x-primary-button id="saveProductBtn">
+                    <x-primary-button id="saveProductBtn" type="button">
                         Adicionar
                     </x-primary-button>
                 </div>
@@ -153,35 +146,32 @@
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('add_product')) {
             window.dispatchEvent(new CustomEvent('open-modal', { detail: "add-product-modal" }));
+
+            // Remove o parâmetro da URL sem recarregar a página
+            const newUrl = window.location.pathname;
+            history.replaceState(null, "", newUrl);
         }
     });
     // Adicionar Produto
-    document.getElementById('productImage').addEventListener('change', function(event) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let preview = document.getElementById('imagePreview');
-            preview.src = e.target.result;
-            preview.classList.remove('hidden');
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-
     document.getElementById('saveProductBtn').addEventListener('click', function (e) {
         e.preventDefault();
 
         let formData = new FormData(document.getElementById('addProductForm'));
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
-        fetch('/products/store', {
+        fetch('/products', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload();
+                document.getElementById('addProductForm').reset(); // Limpa os campos
+                history.replaceState(null, "", window.location.pathname); // Remove o parâmetro
+                location.reload(); // Atualiza a página
             } else {
                 alert('Erro ao adicionar o produto.');
+                console.log(data);
             }
         })
         .catch(error => console.error('Erro ao adicionar produto:', error));
@@ -208,8 +198,6 @@
         formData.append('_method', 'PUT');
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
-        console.log('Id do Produto: ', productId)
-
         fetch(`/products/${productId}/edit`, {
             method: 'POST',
             body: formData
@@ -220,7 +208,6 @@
                 location.reload();
             } else {
                 alert('Erro ao editar o produto.');
-                // console.log(data)
             }
         })
         .catch(error => console.error('Erro ao editar produto:', error));
@@ -245,7 +232,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload(); // Atualiza a página para refletir a exclusão
+                location.reload(); // Atualiza a página
             } else {
                 alert('Erro ao excluir o produto.');
             }

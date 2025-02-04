@@ -13,13 +13,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/produtos', action: [ProductController::class, 'index'])->name('produtos');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 Route::put('/products/{id}/edit', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/{id}/delete', [ProductController::class, 'destroy'])->name('products.destroy');
 Route::get('/avaliacoes', [ReviewController::class, 'index'])->middleware(['auth', 'verified'])->name('avaliacoes');
 Route::get('/conversas', [ChatController::class, 'index'])->middleware(['auth', 'verified'])->name('conversas');
 Route::get('/chats/{chatId}/messages', [ChatController::class, 'getMessages']);
 Route::post('/chats/{chatId}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-
 Route::get('/ajustes', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('ajustes');
 
 Route::middleware('auth')->group(function () {
