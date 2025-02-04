@@ -10,7 +10,9 @@
         </div>
         <div class="flex w-1/3 justify-center items-center">
             <div class="flex max-h-14">
-                <x-primary-button class="mt-2">Adicionar produto</x-primary-button>
+            <a href="{{ route('produtos', ['add_product' => 1]) }}">
+                <x-primary-button>Adicionar produto</x-primary-button>
+            </a>
             </div>
         </div>
     </div>

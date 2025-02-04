@@ -6,7 +6,17 @@
     </x-slot>
 
     <div class="py-12">
-        <h1 class="text-2xl font-semibold text-neutral-100 ms-5 mb-4">Catálogo de Produtos</h1>
+        <div class="flex justify-between mb-4 ps-5">
+            <h1 class="text-2xl font-semibold text-neutral-100">Catálogo de Produtos</h1>
+            <div class="flex w-1/5 justify-center items-center">
+                <div class="flex max-h-14">
+                    <x-primary-button x-on:click="$dispatch('open-modal', 'add-product-modal')">
+                        Adicionar produto
+                    </x-primary-button>
+                </div>
+            </div>
+        </div>
+
         <div class="space-y-4 p-6">
             @if($products->isEmpty())
                 <p class="text-neutral-300">Nenhum produto encontrado.</p>
@@ -43,6 +53,48 @@
             @endif
         </div>
     </div>
+
+        <!-- Modal para Adicionar Produto -->
+        <x-modal name="add-product-modal" :show="false" maxWidth="md">
+        <div class="p-6">
+            <h2 class="text-lg text-white font-semibold">Adicionar Produto</h2>
+            <form id="addProductForm" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Imagem do Produto</label>
+                    <x-text-input type="file" id="productImage" name="image" class="w-full text-white border p-2 rounded" accept="image/*" required />
+                    <div class="flex items-center justify-center mt-2">
+                        <img id="imagePreview" class="w-40 h-40 object-cover rounded hidden" />
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Nome</label>
+                    <x-text-input type="text" id="productName" name="name" class="w-full" required />
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Descrição</label>
+                    <x-textarea-input id="productDescription" name="description" class="w-full"></x-textarea-input>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Preço</label>
+                    <x-text-input type="number" id="productPrice" name="price" step="0.01" class="w-full" required />
+                </div>
+
+                <div class="flex justify-end mt-4 space-x-2">
+                    <x-secondary-button x-on:click="$dispatch('close-modal', 'add-product-modal')">
+                        Cancelar
+                    </x-secondary-button>
+                    <x-primary-button id="saveProductBtn">
+                        Adicionar
+                    </x-primary-button>
+                </div>
+            </form>
+        </div>
+    </x-modal>
     <!-- Modal para Alteração -->
     <x-modal name="edit-product-modal" :show="false" maxWidth="md">
         <div class="p-6">
@@ -80,23 +132,62 @@
     </x-modal>
     <!-- Modal para Exclusão -->
     <x-modal name="delete-product-modal" :show="false" maxWidth="md">
-    <div class="p-6">
-        <h2 class="text-lg text-white font-semibold">Confirmar Exclusão</h2>
-        <p class="text-sm text-neutral-400 mt-2">Tem certeza de que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
-        
-        <div class="flex justify-end mt-4 space-x-2">
-            <x-secondary-button x-on:click="$dispatch('close-modal', 'delete-product-modal')">
-                Cancelar
-            </x-secondary-button>
-            <x-danger-button class="" id="confirmDeleteBtn">
-                Excluir
-            </x-danger-button>
+        <div class="p-6">
+            <h2 class="text-lg text-white font-semibold">Confirmar Exclusão</h2>
+            <p class="text-sm text-neutral-400 mt-2">Tem certeza de que deseja excluir este produto? Esta ação não pode ser desfeita.</p>
+            
+            <div class="flex justify-end mt-4 space-x-2">
+                <x-secondary-button x-on:click="$dispatch('close-modal', 'delete-product-modal')">
+                    Cancelar
+                </x-secondary-button>
+                <x-danger-button class="" id="confirmDeleteBtn">
+                    Excluir
+                </x-danger-button>
+            </div>
         </div>
-    </div>
-</x-modal>
+    </x-modal>
 
 <script>
-    // Disparar modal de alteração
+    // Verificar existência de parâmetros
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('add_product')) {
+            window.dispatchEvent(new CustomEvent('open-modal', { detail: "add-product-modal" }));
+        }
+    });
+    // Adicionar Produto
+    document.getElementById('productImage').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let preview = document.getElementById('imagePreview');
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    document.getElementById('saveProductBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        let formData = new FormData(document.getElementById('addProductForm'));
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+        fetch('/products/store', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao adicionar o produto.');
+            }
+        })
+        .catch(error => console.error('Erro ao adicionar produto:', error));
+    });
+
+    // Alterar Produto
     function openEditModal(id, name, description, price) {
         document.getElementById('editProductId').value = id;
         document.getElementById('editProductName').value = name;
@@ -135,7 +226,7 @@
         .catch(error => console.error('Erro ao editar produto:', error));
     });
 
-    // Disparar modal de exclusão
+    // Excluir Produto
     function openDeleteModal(productId) {
         document.getElementById('confirmDeleteBtn').setAttribute('data-product-id', productId);
         window.dispatchEvent(new CustomEvent('open-modal', { detail: "delete-product-modal" }));
