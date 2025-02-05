@@ -32,16 +32,21 @@
                                     @if($product->status == '0') Desativado @elseif($product->status == '1') Ativado @elseif($product->status == '2') Suspenso <i class="material-icons mx-1" style="font-size: 1rem;">warning</i> @endif
                                 </span>
                             </div>
-                            <p class="text-sm text-neutral-400">Avaliações: {{ $product->evaluations_count }}</p>
+                            
+                            <!-- Exibir a média das avaliações como estrelas -->
+                            <div class="flex items-center space-x-1">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="material-icons {{ $i < $product->averageRating ? 'text-yellow-500' : 'text-neutral-400' }}">
+                                        star
+                                    </i>
+                                @endfor
+                                <span class="text-sm text-neutral-300 ml-2">{{ $product->reviews_count }} avaliações</span>
+                            </div>
 
                             <p class="text-sm text-neutral-300 mt-1">{{ $product->description }}</p>
                             <p class="text-sm font-semibold text-green-400 mt-1">R$ {{ number_format($product->price, 2, ',', '.') }}</p>
-                            <!-- <p class="inline-flex items-center text-xs text-neutral-200 border border-neutral-200 rounded-full px-1">
-                                <i class="material-icons mx-1" style="font-size: 1.2rem;">category</i> Headset
-                            </p> -->
                         </div>
                         <div class="flex space-x-2 mr-4 items-center">
-                            <!-- json_encode garante que os valores sejam passados corretamente como strings JSON -->
                             <button class="text-neutral-100 hover:text-yellow-500 transition-all" 
                                 onclick='openEditModal({{ $product->id }}, {!! json_encode($product->name) !!}, {!! json_encode($product->description) !!}, {!! json_encode($product->price) !!}, {!! json_encode($product->imageURL) !!})'>
                                 <i class="material-icons">edit</i>
@@ -54,6 +59,7 @@
                 @endforeach
             @endif
         </div>
+
     </div>
 
     <!-- Modal para Adicionar Produto -->

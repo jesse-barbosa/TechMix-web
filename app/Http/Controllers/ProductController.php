@@ -10,9 +10,17 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all(); // or however you fetch products
+        // Carrega os produtos com contagem e média das avaliações
+        $products = Product::withCount('reviews')
+            ->withAvg('reviews', 'stars')
+            ->get()
+            ->map(function ($product) {
+                $product->averageRating = round($product->reviews_avg_stars ?? 0, 1); // Arredondar a média
+                return $product;
+            });
+    
         return view('produtos', compact('products'));
-    }
+    }    
 
     public function store(Request $request)
     {
