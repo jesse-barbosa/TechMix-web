@@ -33,14 +33,14 @@
                         <i class="material-icons text-3xl mr-2 bg-green-200 text-green-800 rounded-full p-2">thumb_up</i>
                         <div>
                             <h2 class="text-sm font-normal text-neutral-300">Avaliações Positivas</h2>
-                            <p class="text-neutral-100 text-2xl">95%</p>
+                            <p class="text-neutral-100 text-2xl">{{ $positivePercentage }}%</p>
                         </div>
                     </div>
                     <div class="bg-neutral-700 p-4 rounded-lg shadow-md flex items-center">
                         <i class="material-icons text-3xl mr-2 bg-red-200 text-red-800 rounded-full p-2">thumb_down</i>
                         <div>
                             <h2 class="text-sm font-normal text-neutral-300">Avaliações Negativas</h2>
-                            <p class="text-neutral-100 text-2xl">5%</p>
+                            <p class="text-neutral-100 text-2xl">{{ $negativePercentage }}%</p>
                         </div>
                     </div>
                 </div>
