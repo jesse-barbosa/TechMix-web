@@ -15,11 +15,11 @@
 
     <form method="post" action="{{ route('profile.update') }}" class="w-full mt-6 space-y-6">
         @csrf
-        @method('patch')
+        @method('post')
 
         <div class="flex justify-center my-3">
             <div class="flex justify-center w-full max-w-80">
-                <img src="{{ old('ImageURL', $user->imageURL) }}" class="h-64 w-64 rounded-full" alt="Foto da Loja">
+                <img src="{{ old('ImageURL', $user->imageURL) }}" class="h-64 w-64 rounded-full text-neutral-500" alt="Foto da Loja">
             </div>
             <div class="w-full space-y-6">
                 <div>
