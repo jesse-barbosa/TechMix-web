@@ -102,20 +102,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('neighborhood')" />
         </div>
 
-        <!-- <div>
-            <x-input-label for="status" :value="__('Status')" />
-            @php
-            $status = old('status', $user->status);
-            $statusText = match ($status) {
-                0 => 'Desativado',
-                1 => 'Ativado',
-                default => 'Desconhecido',
-            }
-            @endphp
-            <x-text-input id="status" name="status" type="text" class="mt-1 block w-full" value="{{ $statusText }}" />
-            <x-input-error class="mt-2" :messages="$errors->get('status')" />
-        </div> -->
-
         <div class="flex flex-col items-center justify-center gap-4 w-full">
             <x-primary-button>{{ __('Atualizar Dados') }}</x-primary-button>
 
