@@ -23,7 +23,7 @@
             @else
                 @foreach($products as $product)
                     <div class="bg-neutral-700 rounded-lg shadow-md flex">
-                        <img src="{{ $product->imageURL }}" alt="{{ $product->name }}" class="w-28 h-full object-cover rounded-lg rounded-r-none mr-4">
+                        <img src="{{ $product->imageURL }}" alt="{{ $product->name }}" class="w-28 min-h-full object-cover rounded-lg rounded-r-none mr-4">
                         <div class="flex-grow">
                             <div class="flex flex-row gap-2 mt-2">
                                 <h2 class="text-md font-bold text-neutral-100">{{ $product->name }}</h2>
@@ -41,7 +41,9 @@
                             </p> -->
                         </div>
                         <div class="flex space-x-2 mr-4 items-center">
-                            <button class="text-neutral-100 hover:text-yellow-500 transition-all" onclick="openEditModal({{ $product->id }}, '{{ $product->name }}', '{{ $product->description }}', '{{ $product->price }}')">
+                            <!-- json_encode garante que os valores sejam passados corretamente como strings JSON -->
+                            <button class="text-neutral-100 hover:text-yellow-500 transition-all" 
+                                onclick='openEditModal({{ $product->id }}, {!! json_encode($product->name) !!}, {!! json_encode($product->description) !!}, {!! json_encode($product->price) !!}, {!! json_encode($product->imageURL) !!})'>
                                 <i class="material-icons">edit</i>
                             </button>
                             <button class="text-neutral-100 hover:text-red-500 transition-all" onclick="openDeleteModal({{ $product->id }})">
@@ -60,7 +62,7 @@
             <h2 class="text-lg text-white font-semibold">Adicionar Produto</h2>
             <form id="addProductForm" method="POST" enctype="multipart/form-data">
                 @csrf
-                <x-image-input id="productImage" name="image" required />
+                <x-image-input id="productImage" name="image" :preview="''" required />
                 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Nome</label>
@@ -88,28 +90,32 @@
             </form>
         </div>
     </x-modal>
+
     <!-- Modal para Alteração -->
     <x-modal name="edit-product-modal" :show="false" maxWidth="md">
         <div class="p-6">
             <h2 class="text-lg text-white font-semibold">Editar Produto</h2>
-            <form id="editProductForm" method="POST" action="">
+            <form id="editProductForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <input type="hidden" id="editProductId">
+                <input type="hidden" id="editProductId" name="id">
+
+                <!-- Campo de Upload com Preview -->
+                <x-image-input id="editProductImage" name="image" x-ref="imageInput"/>
 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Nome</label>
-                    <x-text-input type="text" id="editProductName" class="w-full" />
+                    <x-text-input type="text" id="editProductName" name="name" class="w-full" required />
                 </div>
 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Descrição</label>
-                    <x-textarea-input id="editProductDescription" class="w-full"></x-textarea-input>
+                    <x-textarea-input id="editProductDescription" name="description" class="w-full"></x-textarea-input>
                 </div>
 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Preço</label>
-                    <x-text-input type="number" id="editProductPrice" step="0.01" class="w-full" />
+                    <x-text-input type="number" id="editProductPrice" name="price" step="0.01" class="w-full" required />
                 </div>
 
                 <div class="flex justify-end mt-4 space-x-2">
@@ -123,6 +129,7 @@
             </form>
         </div>
     </x-modal>
+
     <!-- Modal para Exclusão -->
     <x-modal name="delete-product-modal" :show="false" maxWidth="md">
         <div class="p-6">
@@ -152,6 +159,7 @@
             history.replaceState(null, "", newUrl);
         }
     });
+    
     // Adicionar Produto
     document.getElementById('saveProductBtn').addEventListener('click', function (e) {
         e.preventDefault();
@@ -178,11 +186,17 @@
     });
 
     // Alterar Produto
-    function openEditModal(id, name, description, price) {
+    function openEditModal(id, name, description, price, imageURL) {
         document.getElementById('editProductId').value = id;
         document.getElementById('editProductName').value = name;
         document.getElementById('editProductDescription').value = description;
         document.getElementById('editProductPrice').value = price;
+
+        // Limpa a imagem de preview antes de abrir o modal
+        const imageInput = document.querySelector('[x-ref="imageInput"]');
+        if (imageInput) {
+            imageInput.dispatchEvent(new CustomEvent('update-image', { detail: '' }));
+        }
 
         window.dispatchEvent(new CustomEvent('open-modal', { detail: "edit-product-modal" }));
     }
@@ -191,10 +205,8 @@
         e.preventDefault();
 
         let productId = document.getElementById('editProductId').value;
-        let formData = new FormData();
-        formData.append('name', document.getElementById('editProductName').value);
-        formData.append('description', document.getElementById('editProductDescription').value);
-        formData.append('price', document.getElementById('editProductPrice').value);
+        let formData = new FormData(document.getElementById('editProductForm'));
+
         formData.append('_method', 'PUT');
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
