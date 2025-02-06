@@ -34,7 +34,7 @@ class ProfileController extends Controller
              'imageURL' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
              'street' => 'required|string|max:255',
              'number' => 'required|string|max:10',
-             'complement' => 'required|string|max:255',
+             'complement' => 'nullable|string|max:255',
              'neighborhood' => 'required|string|max:255',
              'city' => 'required|string|max:255',
              'state' => 'required|string|max:2',
