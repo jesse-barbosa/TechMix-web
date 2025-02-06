@@ -31,19 +31,33 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:stores,email'],
+            'access_key' => ['required', 'string', 'min:8'],
+            'cnpj' => ['required', 'string', 'max:18'],
+            'cep' => ['required', 'string', 'max:9'],
+            'street' => ['required', 'string', 'max:255'],
+            'number' => ['required', 'string', 'max:10'],
+            'neighborhood' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:2'],
         ]);
 
-        $user = User::create([
+        $store = Store::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->access_key),
+            'cnpj' => $request->cnpj,
+            'postalCode' => $request->cep,
+            'street' => $request->street,
+            'number' => $request->number,
+            'neighborhood' => $request->neighborhood,
+            'city' => $request->city,
+            'state' => $request->state,
         ]);
 
-        event(new Registered($user));
+        event(new Registered($store));
 
-        Auth::login($user);
+        Auth::login($store);
 
         return redirect(route('dashboard', absolute: false));
     }

@@ -6,22 +6,22 @@
 
         <h2 class="text-xl text-white font-bold">{{ __('Crie uma conta') }}</h2>
 
-        <!-- Company Name -->
+        <!-- Name -->
         <div class="mt-4">
-            <x-input-label for="company_name" :value="__('Nome da Empresa')" />
+            <x-input-label for="name" :value="__('Nome da Empresa')" />
             <div class="relative">
-                <x-text-input id="company_name" class="block mt-1 w-full pl-10" type="text" name="company_name" required autofocus autocomplete="company_name" placeholder="{{ __('Nome') }}" icon="fas fa-building" />
+                <x-text-input id="name" class="block mt-1 w-full pl-10" type="text" name="name" required autofocus autocomplete="name" placeholder="{{ __('Nome') }}" icon="fas fa-building" />
             </div>
-            <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Company Email -->
+        <!-- Email -->
         <div class="mt-4">
-            <x-input-label for="company_email" :value="__('E-mail da Empresa')" />
+            <x-input-label for="email" :value="__('E-mail da Empresa')" />
             <div class="relative">
-                <x-text-input id="company_email" class="block mt-1 w-full pl-10" type="email" name="company_email" required autocomplete="company_email" placeholder="{{ __('exemplo@techmix.com') }}" icon="fas fa-envelope" />
+                <x-text-input id="email" class="block mt-1 w-full pl-10" type="email" name="email" required autocomplete="email" placeholder="{{ __('exemplo@techmix.com') }}" icon="fas fa-envelope" />
             </div>
-            <x-input-error :messages="$errors->get('company_email')" class="mt-2" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Access Key -->
@@ -38,7 +38,7 @@
             <div class="flex-1">
                 <x-input-label for="cep" :value="__('CEP')" />
                 <div class="relative">
-                    <x-text-input id="cep" class="block mt-1 w-full pl-10" type="text" name="cep" required autocomplete="cep" onblur="autoCompleteAddress()" placeholder="{{ __('00000-000') }}" icon="fas fa-map-marker-alt" />
+                    <x-text-input id="cep" class="block mt-1 w-full pl-10" type="text" name="cep" required autocomplete="cep" oninput="checkCEP()" placeholder="{{ __('00000-000') }}" icon="fas fa-map-marker-alt" />
                 </div>
                 <span id="cep-error" class="text-red-500 text-sm mt-2"></span>
                 <x-input-error id="cep-error" :messages="$errors->get('cep')" class="mt-2" />
@@ -95,7 +95,7 @@
         </div>
 
         <x-primary-button class="w-full my-4">
-            {{ __('Register') }}
+            {{ __('Registrar') }}
         </x-primary-button>
 
         <div class="mb-4 text-center">
@@ -109,7 +109,7 @@
     </form>
     
     <script>
-        function autoCompleteAddress() {
+        function checkCEP() {
             const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove caracteres não numéricos
             const errorMessage = document.getElementById('cep-error');
             
