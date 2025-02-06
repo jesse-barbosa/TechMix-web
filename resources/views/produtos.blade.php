@@ -19,7 +19,14 @@
 
         <div class="space-y-4 p-6">
             @if($products->isEmpty())
-                <p class="text-neutral-300">Nenhum produto encontrado.</p>
+                <div class="bg-neutral-800 text-neutral-300 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
+                    <i class="material-icons text-6xl text-neutral-500 mb-4">inventory_2</i>
+                    <p class="text-lg font-semibold">Nenhum produto encontrado</p>
+                    <p class="text-sm text-neutral-400 mt-2">Parece que você ainda não adicionou nenhum produto ao seu catálogo.</p>
+                    <x-primary-button x-on:click="$dispatch('open-modal', 'add-product-modal')" class="mt-4 text-neutral-800">
+                        Adicionar Produto
+                    </x-primary-button>
+                </div>
             @else
                 @foreach($products as $product)
                     <div class="bg-neutral-700 rounded-lg shadow-md flex">

@@ -45,10 +45,14 @@
                     </div>
                 </div>
                 <h1 class="text-2xl font-semibold text-neutral-100 ms-5 mb-4">Produtos recentes</h1>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
-                    @if($products->isEmpty())
-                        <p class="text-neutral-300">Nenhum produto encontrado.</p>
+                @if($products->isEmpty())
+                        <div class="bg-neutral-800 text-neutral-300 p-6 m-6 rounded-lg shadow-md flex flex-col items-center justify-center">
+                            <i class="material-icons text-6xl text-neutral-500 mb-4">inventory_2</i>
+                            <p class="text-lg font-semibold">Nenhum produto encontrado</p>
+                            <p class="text-sm text-neutral-400 mt-2">Parece que você ainda não adicionou nenhum produto ao seu catálogo.</p>
+                        </div>
                     @else
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
                         @foreach($products->take(5) as $product)
                             <div class="bg-neutral-700 rounded-lg shadow-md flex flex-col">
                                 <img src="{{ $product->imageURL }}" alt="{{ $product->name }}" class="w-full h-32 object-cover rounded">

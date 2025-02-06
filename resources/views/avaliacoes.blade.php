@@ -9,7 +9,11 @@
         <h1 class="text-2xl font-semibold text-neutral-100 ms-5 mb-4">Avaliações de Produtos</h1>
         <div class="space-y-4 p-6">
             @if($reviews->isEmpty())
-                <p class="text-neutral-300">Nenhuma avaliação encontrada.</p>
+                <div class="bg-neutral-800 text-neutral-300 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
+                    <i class="material-icons text-6xl text-neutral-500 mb-4">reviews</i>
+                    <p class="text-lg font-semibold">Nenhuma avaliação encontrada</p>
+                    <p class="text-sm text-neutral-400 mt-2">Parece que você ainda não tem avaliações de produtos.</p>
+                </div>
             @else
                 @foreach($reviews as $review)
                     <div class="bg-neutral-700 rounded-lg shadow-md flex p-2">

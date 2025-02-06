@@ -9,7 +9,11 @@
         <h1 class="text-2xl font-semibold text-neutral-100 ms-5 mb-4">Chats com Clientes</h1>
         <div class="space-y-4 p-6">
             @if($chats->isEmpty())
-                <p class="text-neutral-300">Nenhuma conversa encontrada.</p>
+            <div class="bg-neutral-800 text-neutral-300 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
+                    <i class="material-icons text-6xl text-neutral-500 mb-4">chat</i>
+                    <p class="text-lg font-semibold">Nenhuma conversa encontrada</p>
+                    <p class="text-sm text-neutral-400 mt-2">Parece que você ainda não tem conversas com clientes.</p>
+                </div>
             @else
             @foreach($chats as $chat)
                 <div onclick="openChat({{ $chat->id }}, '{{ $chat->user ? $chat->user->name : 'Anônimo' }}')"
