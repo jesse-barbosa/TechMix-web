@@ -30,7 +30,7 @@
 
             <div class="relative flex items-center mt-4">
                 <div class="flex justify-between items-center w-full p-2 border border-transparent text-sm text-neutral-400 hover:text-neutral-300 cursor-pointer" @click="open = !open">
-                    <img src="{{ Auth::user()->imageURL }}" alt="User Image" class="w-8 h-8 rounded-full">
+                    <img src="{{ $imageSrc = Auth::user()->imageURL ?? asset('/assets/images/stores/default.png') }}" alt="User Image" class="w-8 h-8 rounded-full">
                     <div x-show="expanded" class="w-full text-md mx-2">{{ Auth::user()->name }}</div>
                     <span class="material-icons">more_vert</span>
                 </div>
@@ -39,7 +39,7 @@
                     <button @click="open = false" class="absolute right-2  text-white hover:text-gray-200 text-4xl">&times;</button>
                     <div class="flex flex-col items-center">
                         <div class="w-full h-12 rounded-lg rounded-b-none bg-yellow-500"></div>
-                        <img src="{{ Auth::user()->imageURL }}" alt="User Image" class="w-24 h-24 rounded-full -mt-6 border-4 border-neutral-700">
+                        <img src="{{ $imageSrc = Auth::user()->imageURL ?? asset('/assets/images/stores/default.png') }}" alt="User Image" class="w-24 h-24 rounded-full -mt-6 border-4 border-neutral-700">
                         <div class="text-center py-4">
                             <div class="text-md font-semibold">{{ Auth::user()->name }}</div>
                             <div class="text-sm text-neutral-300">{{ Auth::user()->email }}</div>

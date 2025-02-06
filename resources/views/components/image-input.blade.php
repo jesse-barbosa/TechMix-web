@@ -7,7 +7,7 @@
   x-on:close-modal="clearImage()"
   class="w-full">
   
-  <label class="block text-sm text-neutral-300 mb-2">Imagem do Produto</label>
+  <label class="block text-sm text-neutral-300 mb-2">Importar Imagem</label>
   
   <div 
     class="relative border-2 border-dashed border-neutral-600 bg-neutral-800 text-neutral-300 rounded-lg shadow-sm flex flex-col items-center justify-center p-6 cursor-pointer hover:border-yellow-500 transition"

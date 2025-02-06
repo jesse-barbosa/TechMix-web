@@ -18,9 +18,34 @@
         @method('post')
 
         <div class="flex justify-center my-3">
-            <div class="flex justify-center w-full max-w-80">
-                <img src="{{ old('ImageURL', $user->imageURL) }}" class="h-64 w-64 rounded-full text-neutral-500" alt="Foto da Loja">
+            <div x-data="{ open: false }">
+                <button x-on:click="$dispatch('open-modal', 'imageUploadModal')" class="relative w-full max-w-80 mr-4">
+                    <img src="{{ old('imageURL', $user->imageURL ?? asset('/assets/images/stores/default.png')) }}" class="max-h-56 max-w-56 rounded-full" alt="Foto da Loja">
+                    <div class="absolute top-0 right-0 h-10 w-10 p-2 bg-neutral-700 rounded-full hover:cursor-pointer">
+                        <i class="material-icons text-neutral-300">edit</i>
+                    </div>
+                </button>
+
+                <!-- Use the modal component -->
+                <x-modal name="imageUploadModal" :show="true" maxWidth="md">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-neutral-100">Selecione a Imagem</h3>
+
+                        <!-- Use the image-input component -->
+                        <x-image-input id="image-input" name="imageURL" :preview="old('imageURL', $user->imageURL)" />
+
+                        <div class="flex justify-end mt-4 space-x-2">
+                            <x-secondary-button x-on:click="$dispatch('close-modal', 'imageUploadModal')">
+                                Cancelar
+                            </x-secondary-button>
+                            <x-primary-button id="saveProductBtn" type="button">
+                                Salvar
+                            </x-primary-button>
+                        </div>
+                    </div>
+                </x-modal>
             </div>
+
             <div class="w-full space-y-6">
                 <div>
                     <x-input-label for="name" :value="__('Nome')" />
@@ -116,8 +141,22 @@
             @endif
         </div>
     </form>
-
     <script>
+        function imagePreview() {
+            return {
+                imageSrc: '{{ old('imageURL', $user->imageURL) }}',
+                updateImage(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.imageSrc = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+        }
         function autoCompleteAddress() {
             const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove caracteres não numéricos
             const errorMessage = document.getElementById('cep-error');
