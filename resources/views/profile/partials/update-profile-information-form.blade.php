@@ -19,26 +19,26 @@
 
         <div class="flex justify-center my-3">
             <div x-data="{ open: false }">
-                <button x-on:click="$dispatch('open-modal', 'imageUploadModal')" class="relative w-full max-w-80 mr-4">
-                    <img src="{{ old('imageURL', $user->imageURL ?? asset('/assets/images/stores/default.png')) }}" class="max-h-56 max-w-56 rounded-full" alt="Foto da Loja">
-                    <div class="absolute top-0 right-0 h-10 w-10 p-2 bg-neutral-700 rounded-full hover:cursor-pointer">
+                <button type="button" x-on:click="$dispatch('open-modal', 'imageUploadModal')" class="relative w-64 mr-4">
+                    <img src="{{ old('imageURL', $user->imageURL ?? asset('/assets/images/stores/default.png')) }}" class="max-h-56 max-w-56 rounded-full text-neutral-400" alt="Foto da Loja">
+                    <div class="absolute top-0 right-0 h-10 w-10 p-2 bg-neutral-700 hover:bg-neutral-600 rounded-full hover:cursor-pointer">
                         <i class="material-icons text-neutral-300">edit</i>
                     </div>
                 </button>
 
                 <!-- Use the modal component -->
-                <x-modal name="imageUploadModal" :show="true" maxWidth="md">
+                <x-modal name="imageUploadModal" :show="false" maxWidth="md">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-4 text-neutral-100">Selecione a Imagem</h3>
 
                         <!-- Use the image-input component -->
-                        <x-image-input id="image-input" name="imageURL" :preview="old('imageURL', $user->imageURL)" />
+                        <x-image-input id="profileImage" name="imageURL" :preview="old('imageURL', $user->imageURL)" />
 
                         <div class="flex justify-end mt-4 space-x-2">
                             <x-secondary-button x-on:click="$dispatch('close-modal', 'imageUploadModal')">
                                 Cancelar
                             </x-secondary-button>
-                            <x-primary-button id="saveProductBtn" type="button">
+                            <x-primary-button id="saveProfileImageBtn" type="button">
                                 Salvar
                             </x-primary-button>
                         </div>
@@ -46,7 +46,7 @@
                 </x-modal>
             </div>
 
-            <div class="w-full space-y-6">
+            <div class="w-full space-y-6 ml-4">
                 <div>
                     <x-input-label for="name" :value="__('Nome')" />
                     <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" placeholder="Digite o nome da sua loja" required autofocus autocomplete="name" />
@@ -142,21 +142,6 @@
         </div>
     </form>
     <script>
-        function imagePreview() {
-            return {
-                imageSrc: '{{ old('imageURL', $user->imageURL) }}',
-                updateImage(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.imageSrc = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            }
-        }
         function autoCompleteAddress() {
             const cep = document.getElementById('cep').value.replace(/\D/g, ''); // Remove caracteres não numéricos
             const errorMessage = document.getElementById('cep-error');
@@ -183,6 +168,43 @@
                 errorMessage.textContent = 'CEP inválido. Insira um CEP válido com 8 dígitos.';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const saveButton = document.getElementById('saveProfileImageBtn');
+            if (saveButton) {
+                saveButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    console.log('Salvar button clicked');
+
+                    let formData = new FormData();
+                    const imageInput = document.getElementById('profileImage');
+                    if (imageInput.files.length > 0) {
+                        formData.append('imageURL', imageInput.files[0]);
+                    }
+                    formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+                    fetch('/profile/update-image', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        console.log('Response received:', response);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Data received:', data);
+                        if (data.success) {
+                            location.reload(); // Atualiza a página
+                        } else {
+                            alert('Erro ao atualizar a imagem do perfil.');
+                        }
+                    })
+                    .catch(error => console.error('Erro ao atualizar imagem do perfil:', error));
+                });
+            } else {
+                console.error('Save button not found');
+            }
+        });
     </script>
     
 </section>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Store;
+use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
@@ -30,7 +31,7 @@ class ProfileController extends Controller
              'email' => 'required|string|max:255',
              'description' => 'nullable|string',
              'cnpj' => 'required|string|max:18',
-             'imageURL' => 'nullable|string|max:255',
+             'imageURL' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
              'street' => 'required|string|max:255',
              'number' => 'required|string|max:10',
              'complement' => 'required|string|max:255',
@@ -46,7 +47,13 @@ class ProfileController extends Controller
          $store->email = $request->email;
          $store->description = $request->description;
          $store->cnpj = $request->cnpj;
-         $store->imageURL = $request->imageURL;
+     
+         // Handle image upload
+         if ($request->hasFile('imageURL')) {
+             $imagePath = $request->file('imageURL')->store('stores', 'public');
+             $store->imageURL = $imagePath;
+         }
+     
          $store->street = $request->street;
          $store->number = $request->number;
          $store->complement = $request->complement;
@@ -83,5 +90,27 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'imageURL' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $store = Store::find(auth()->id());
+
+        if ($request->hasFile('imageURL')) {
+            $imagePath = $request->file('imageURL')->store('stores', 'public');
+            $store->imageURL = '/storage/' . $imagePath;
+            $store->save();
+
+            // Log for debugging
+            logger()->info('Store image updated:', ['imageURL' => $store->imageURL]);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No image uploaded.']);
     }
 }
