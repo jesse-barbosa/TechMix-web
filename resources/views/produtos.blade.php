@@ -82,7 +82,16 @@
                 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Preço</label>
-                    <x-text-input type="number" id="productPrice" name="price" step="0.01" class="w-full" required />
+                    <x-text-input type="text" id="productPrice" name="price" class="w-full" required 
+                        value="R$ 0,00"
+                        oninput="
+                            let value = this.value.replace(/[^0-9]/g, '');
+                            value = value ? parseInt(value, 10).toString() : '0';
+                            value = value.padStart(3, '0');
+                            value = value.slice(0, -2) + ',' + value.slice(-2);
+                            this.value = 'R$ ' + value;
+                        " 
+                        placeholder="R$ 0,00" />
                 </div>
                 
                 <div class="flex justify-end mt-4 space-x-2">
@@ -121,7 +130,16 @@
 
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Preço</label>
-                    <x-text-input type="number" id="editProductPrice" name="price" step="0.01" class="w-full" required />
+                    <x-text-input type="text" id="editProductPrice" name="price" class="w-full" required 
+                        value="R$ 0,00"
+                        oninput="
+                            let value = this.value.replace(/[^0-9]/g, '');
+                            value = value ? parseInt(value, 10).toString() : '0';
+                            value = value.padStart(3, '0');
+                            value = value.slice(0, -2) + ',' + value.slice(-2);
+                            this.value = 'R$ ' + value;
+                        " 
+                        placeholder="R$ 0,00" />
                 </div>
 
                 <div class="flex justify-end mt-4 space-x-2">
