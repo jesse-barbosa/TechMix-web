@@ -128,7 +128,7 @@
                     let messagesContainer = document.getElementById('messagesContainer');
                     let alignment = 'justify-end'; // Loja sempre envia à direita
                     let bgColor = 'bg-yellow-500';
-                    let time = new Date(data.message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                     let messageElement = `
                         <div class="flex ${alignment}">
