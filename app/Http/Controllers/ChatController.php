@@ -10,10 +10,10 @@ class ChatController extends Controller
 {
     public function index()
     {
-
-        // Fetch chats with related users
-        $chats = Chat::with(['user', 'lastMessage'])->get();
-
+        // Fetch chats for the logged-in store
+        $chats = Chat::where('storeId', auth()->id())
+                     ->with(['user', 'lastMessage'])
+                     ->get();
 
         // Pass the chats to the view
         return view('conversas', ['chats' => $chats]);

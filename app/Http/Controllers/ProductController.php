@@ -10,8 +10,9 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Carrega os produtos com contagem e média das avaliações
-        $products = Product::withCount('reviews')
+        // Carrega os produtos do store logado com contagem e média das avaliações
+        $products = Product::where('storeId', auth()->id())
+            ->withCount('reviews')
             ->withAvg('reviews', 'stars')
             ->get()
             ->map(function ($product) {
