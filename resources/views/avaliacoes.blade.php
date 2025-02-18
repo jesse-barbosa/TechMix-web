@@ -18,9 +18,9 @@
                 @foreach($reviews as $review)
                     <div class="bg-neutral-700 rounded-lg shadow-md flex p-2">
                         <div class="flex flex-col w-1/6 items-center justify-center text-neutral-100 space-y-2 mr-4">
-                            <img src="{{ $review->user ? $review->user->imageURL : '/assets/images/users/default.png' }}" 
-                                alt="User Icon" 
-                                class="text-center w-14 h-14 rounded-full">
+                        <img src="{{ $review->user && $review->user->imageURL ? $review->user->imageURL : asset('assets/images/users/default.png') }}" 
+                            alt="User Icon" 
+                            class="text-center w-14 h-14 rounded-full">
                                  
                             <h2 class="text-sm font-bold text-center">{{ $review->user ? $review->user->name : 'Anônimo' }}</h2>
                         </div>

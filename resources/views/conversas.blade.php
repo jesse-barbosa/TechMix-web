@@ -19,9 +19,10 @@
                 <div onclick="openChat({{ $chat->id }}, '{{ $chat->user ? $chat->user->name : 'Anônimo' }}')"
                     class="bg-neutral-700 hover:bg-neutral-600 hover:cursor-pointer rounded-lg shadow-md flex p-4 transition-all duration-700">
                     <div class="flex w-full items-center text-neutral-100 space-x-2 mr-4">
-                        <img src="{{ $chat->user ? $chat->user->imageURL : '/assets/images/users/default.png' }}" 
-                            alt="User Icon" 
-                            class="text-center w-16 h-16 rounded-full">
+
+                        <img src="{{ $chat->user && $chat->user->imageURL ? $chat->user->imageURL : asset('assets/images/users/default.png') }}" 
+                        alt="User Icon" 
+                        class="text-center w-14 h-14 rounded-full">
 
                         <div class="flex flex-col w-full h-full pb-1">
                             <div class="flex items-center space-x-4">
