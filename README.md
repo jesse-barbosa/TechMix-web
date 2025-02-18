@@ -1,66 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Logo do Laravel"></a></p>
+# Demonstração do Projeto
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Status da Construção"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total de Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Última Versão Estável"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="Licença"></a>
-</p>
+<div align="center">
+    <image src="./public/assets/demo/register_page.png" alt="Tela de Registro" width="380">
+    <image src="./public/assets/demo/dashboard_page.png" alt="Tela Inicial" width="380">
+    <image src="./public/assets/demo/products_page.png" alt="Tela de Produtos" width="380">
+    <image src="./public/assets/demo/chats_page.png" alt="Tela de Conversas" width="380">
+    <image src="./public/assets/demo/settings_page.png" alt="Tela de Configurações" width="380">
+</div>
 
-## Sobre o Laravel
+# Requisitos  
 
-Laravel é um framework para aplicações web com uma sintaxe expressiva e elegante. Acreditamos que o desenvolvimento deve ser uma experiência agradável e criativa. O Laravel facilita tarefas comuns em muitos projetos web, como:
+- Servidor PHP Local Apache e MySQL (Sugestão: [XAMPP](https://www.apachefriends.org/pt_br/download.html))
+- [Git](https://git-scm.com/downloads)
+- [Composer](https://getcomposer.org/download/) (para instalação das dependências do Laravel)
 
-- [Roteamento simples e rápido](https://laravel.com/docs/routing).
-- [Container de injeção de dependência poderoso](https://laravel.com/docs/container).
-- Vários back-ends para [sessão](https://laravel.com/docs/session) e [armazenamento em cache](https://laravel.com/docs/cache).
-- [ORM de banco de dados intuitivo](https://laravel.com/docs/eloquent).
-- [Migrações de esquema](https://laravel.com/docs/migrations) independentes de banco de dados.
-- [Processamento robusto de jobs em segundo plano](https://laravel.com/docs/queues).
-- [Transmissão de eventos em tempo real](https://laravel.com/docs/broadcasting).
+# Instalação e Execução
 
-O Laravel é acessível, poderoso e fornece as ferramentas necessárias para aplicações grandes e robustas.
+## 1. Clone o repositório
+Primeiro, clone o repositório do projeto (ou baixe o repositório pelo GitHub) dentro da pasta htdocs:
 
-## Aprendendo Laravel
+    git clone https://github.com/jesse-barbosa/TechMix-web.git
 
-O Laravel possui a [documentação](https://laravel.com/docs) mais completa e uma vasta biblioteca de tutoriais em vídeo, facilitando o início com o framework.
+## 2. Importe o banco
 
-Você também pode experimentar o [Laravel Bootcamp](https://bootcamp.laravel.com), onde será guiado na construção de uma aplicação moderna em Laravel do zero.
+- 2.1 Primeiro, ligue o servidor Apache e MySQL no XAMPP
+- 2.2 Acesse o painel PhpMyAdmin: Digite "localhost/" no endereço de pesquisa do seu navegador
+- 2.3 Crie um novo banco de dados com o nome "dbtechmix"
+- 2.4 Clique na opção de importar
+- 2.5 Importe o arquivo SQL localizado na pasta "banco" do projeto
 
-Se preferir, [Laracasts](https://laracasts.com) pode ajudar. Laracasts contém milhares de tutoriais em vídeo sobre diversos tópicos, incluindo Laravel, PHP moderno, testes unitários e JavaScript.
+## 3. Instale as dependências do Laravel
 
-## Patrocinadores do Laravel
+Primeiro, abra a pasta `TechMix-web` no terminal:
 
-Agradecemos aos seguintes patrocinadores pelo apoio ao desenvolvimento do Laravel. Se você estiver interessado em se tornar um patrocinador, visite o [programa de Parceiros do Laravel](https://partners.laravel.com).
+    cd TechMix
 
-### Parceiros Premium
+Em seguida, instale as dependências:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    composer install
 
-## Contribuindo
+## 4. Crie o arquivo .env do Laravel
 
-Obrigado por considerar contribuir para o framework Laravel! O guia de contribuição pode ser encontrado na [documentação do Laravel](https://laravel.com/docs/contributions).
+Dentro da pasta `TechMix-web`, copie o arquivo de exemplo `.env.example` e renomeie para `.env`
 
-## Código de Conduta
+## 5. Gere a chave da aplicação Laravel
 
-Para garantir que a comunidade Laravel seja acolhedora para todos, por favor, revise e siga o [Código de Conduta](https://laravel.com/docs/contributions#code-of-conduct).
+Ainda dentro da pasta `TechMix-web`, execute o seguinte comando para gerar a chave da aplicação:
 
-## Vulnerabilidades de Segurança
+    php artisan key:generate
 
-Se você descobrir uma vulnerabilidade de segurança no Laravel, envie um e-mail para Taylor Otwell em [taylor@laravel.com](mailto:taylor@laravel.com). Todas as vulnerabilidades de segurança serão tratadas prontamente.
+Esse comando criará e armazenará uma chave única no arquivo `.env`, essencial para a segurança e criptografia do Laravel.
 
-## Licença
+## 6. Execute o Projeto  
 
-O framework Laravel é um software de código aberto licenciado sob a [licença MIT](https://opensource.org/licenses/MIT).
+Você pode iniciar o projeto diretamente com o comando:
+
+    php artisan serve
+
+Agora, abra o seu navegador no endereço:
+
+    http://127.0.0.1:8000/
+
+Agora o projeto Laravel deve rodar no seu navegador.
+
+Se encontrar algum problema ou tiver dúvidas, consulte a [documentação oficial do Laravel](https://laravel.com/) ou entre em contato comigo pelo meu e-mail: [barbosajesse419@gmail.com](mailto:barbosajesse419@gmail.com).
