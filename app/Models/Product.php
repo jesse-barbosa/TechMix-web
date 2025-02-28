@@ -14,6 +14,12 @@ class Product extends Model
         return $this->belongsTo(Store::class, 'storeId');
     }
 
+    // Relacionamento com a categoria
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     // Relacionamento com as avaliações
     public function reviews(){
         return $this->hasMany(Review::class, 'productId', 'id');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -19,8 +20,10 @@ class ProductController extends Controller
                 $product->averageRating = round($product->reviews_avg_stars ?? 0, 1); // Arredondar a média
                 return $product;
             });
+
+        $categories = Category::all();
     
-        return view('produtos', compact('products'));
+        return view('produtos', compact('products', 'categories'));
     }    
 
     public function store(Request $request)
@@ -30,12 +33,14 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categoryId' => 'required|integer|max:11',
         ]);
     
         $product = new Product();
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->categoryId = $request->categoryId;
         $product->storeId = auth()->id();
     
         if ($request->hasFile('image')) {
@@ -61,11 +66,13 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'categoryId' => 'required|integer|max:11',
         ]);
 
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->categoryId = $request->categoryId;
 
         // Se houver uma nova imagem, atualizar
         if ($request->hasFile('image')) {

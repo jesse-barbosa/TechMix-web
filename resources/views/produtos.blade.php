@@ -55,7 +55,7 @@
                         </div>
                         <div class="flex space-x-2 mr-4 items-center">
                             <button class="text-neutral-100 hover:text-yellow-500 transition-all" 
-                                onclick='openEditModal({{ $product->id }}, {!! json_encode($product->name) !!}, {!! json_encode($product->description) !!}, {!! json_encode($product->price) !!}, {!! json_encode($product->imageURL) !!})'>
+                                onclick='openEditModal({{ $product->id }}, {!! json_encode($product->name) !!}, {!! json_encode($product->description) !!}, {!! json_encode($product->price) !!}, {!! json_encode($product->imageURL) !!}, {!! json_encode($product->categoryId) !!})'>
                                 <i class="material-icons">edit</i>
                             </button>
                             <button class="text-neutral-100 hover:text-red-500 transition-all" onclick="openDeleteModal({{ $product->id }})">
@@ -85,6 +85,15 @@
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Descrição</label>
                     <x-textarea-input id="productDescription" name="description" class="w-full"></x-textarea-input>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Categoria</label>
+                    <select id="productCategory" name="categoryId" class="w-full border-neutral-700 bg-neutral-900 text-white border p-2 rounded-md">
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 
                 <div class="mt-4">
@@ -134,17 +143,24 @@
                     <label class="text-sm text-neutral-300">Descrição</label>
                     <x-textarea-input id="editProductDescription" name="description" class="w-full"></x-textarea-input>
                 </div>
-
+                <div class="mt-4">
+                    <label class="text-sm text-neutral-300">Categoria</label>
+                    <select id="editProductCategory" name="categoryId" class="w-full border-neutral-700 bg-neutral-900 text-white border p-2 rounded-md">
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="mt-4">
                     <label class="text-sm text-neutral-300">Preço</label>
                     <x-text-input type="text" id="editProductPrice" name="price" class="w-full" required 
                         value="R$ 0,00"
                         oninput="
-                            let value = this.value.replace(/[^0-9]/g, '');
-                            value = value ? parseInt(value, 10).toString() : '0';
-                            value = value.padStart(3, '0');
-                            value = value.slice(0, -2) + ',' + value.slice(-2);
-                            this.value = 'R$ ' + value;
+                            let value = this.value.replace(/[^0-9]/g, ''); // Remove qualquer caractere que não seja número
+                            value = value ? parseInt(value, 10).toString() : '0'; // Converte para número
+                            value = value.padStart(3, '0'); // Preenche com zero à esquerda se necessário
+                            value = value.slice(0, -2) + ',' + value.slice(-2); // Adiciona vírgula para centavos
+                            this.value = 'R$ ' + value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Formata o valor com pontos para milhar
                         " 
                         placeholder="R$ 0,00" />
                 </div>
@@ -198,6 +214,14 @@
         let formData = new FormData(document.getElementById('addProductForm'));
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
+        // Manipula o preço antes de adicionar no FormData
+        let price = document.getElementById('productPrice').value
+            .replace('R$ ', '')   // Remove "R$ "
+            .replace('.', '')     // Remove ponto (milhar)
+            .replace(',', '.');   // Substitui a vírgula por ponto
+
+        formData.append('price', price); // Adiciona o preço no formato correto ao FormData
+
         fetch('/products', {
             method: 'POST',
             body: formData
@@ -213,15 +237,22 @@
                 console.log(data);
             }
         })
-        .catch(error => console.error('Erro ao adicionar produto:', error));
+        .catch(error => console.error('Erro ao adicionar produto:', error) );
     });
 
     // Alterar Produto
-    function openEditModal(id, name, description, price, imageURL) {
+    function openEditModal(id, name, description, price, imageURL, categoryId) {
         document.getElementById('editProductId').value = id;
         document.getElementById('editProductName').value = name;
         document.getElementById('editProductDescription').value = description;
-        document.getElementById('editProductPrice').value = price;
+        document.getElementById('editProductCategory').value = categoryId;
+
+        // Formatar o preço para o formato R$ 1.000,00
+        let formattedPrice = (parseFloat(price) || 0).toFixed(2).replace('.', ',');
+        formattedPrice = formattedPrice.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Aplica o ponto para milhar
+
+        // Atribui o preço formatado ao campo de preço
+        document.getElementById('editProductPrice').value = `R$ ${formattedPrice}`;
 
         // Limpa a imagem de preview antes de abrir o modal
         const imageInput = document.querySelector('[x-ref="imageInput"]');
@@ -232,11 +263,20 @@
         window.dispatchEvent(new CustomEvent('open-modal', { detail: "edit-product-modal" }));
     }
 
+    // Salvando os dados do produto
     document.getElementById('saveEditProductBtn').addEventListener('click', function (e) {
         e.preventDefault();
 
         let productId = document.getElementById('editProductId').value;
         let formData = new FormData(document.getElementById('editProductForm'));
+
+        // Manipula o preço antes de adicionar no FormData
+        let price = document.getElementById('editProductPrice').value
+            .replace('R$ ', '')   // Remove "R$ "
+            .replace('.', '')     // Remove ponto (milhar)
+            .replace(',', '.');   // Substitui a vírgula por ponto
+
+        formData.append('price', price); // Adiciona o preço no formato correto ao FormData
 
         formData.append('_method', 'PUT');
         formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
