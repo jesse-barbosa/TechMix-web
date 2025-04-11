@@ -33,7 +33,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categoryId' => 'required|integer|max:11',
+            'categoryId' => 'required|integer|max:12',
         ]);
     
         $product = new Product();
@@ -66,7 +66,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categoryId' => 'required|integer|max:11',
+            'categoryId' => 'required|integer|max:12',
         ]);
 
         $product->name = $request->name;
